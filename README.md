@@ -1,36 +1,166 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ERP System for Auditing Client
 
-## Getting Started
+This is a Next.js + Node.js-based ERP system designed to manage staff, assign tasks, monitor attendance, and handle check-ins/check-outs. The system has distinct logins for admins and staff, with server-side rendering (SSR) used throughout.
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- [Technologies](../../Downloads/README.md#technologies)
+- [Project Structure](../../Downloads/README.md#project-structure)
+- [Installation](../../Downloads/README.md#installation)
+- [Database Connection](../../Downloads/README.md#database-connection)
+- [API Routes](../../Downloads/README.md#api-routes)
+- [Folder Breakdown](../../Downloads/README.md#folder-breakdown)
+
+## Technologies
+
+- **Frontend**: [Next.js](https://nextjs.org/) (TSX)
+- **Backend**: [Node.js](https://nodejs.org/) (TSX) + [Express](https://expressjs.com/)
+- **Database**: [MySQL](https://www.mysql.com/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Charts**: [Chart.js](https://www.chartjs.org/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+
+## Project Structure
+
+This project follows a clean, enterprise-level structure with a focus on reusability, separation of concerns, and clarity.
+
+```
+📦 ERP Project
+├─ .eslintrc.json
+├─ .gitignore
+├─ README.md
+├─ app
+│  ├─ auth                 # Auth-related pages & layout (sign-in/sign-up)
+│  ├─ admin                # Admin-specific pages
+│  ├─ staff                # Staff-specific pages
+│  ├─ globals.css          # Global styles
+│  ├─ layout.tsx           # Root layout (used across app)
+│  └─ page.tsx             # Home page
+├─ components              # Reusable components (UI & business logic)
+│  ├─ admin                # Admin-specific components
+│  ├─ staff                # Staff-specific components
+│  ├─ shared               # Shared components (admin/staff)
+│  ├─ ui                   # Generic UI components
+│  └─ charts               # Chart components
+├─ constants               # Application constants (roles, URLs, etc.)
+├─ hooks                   # Custom React hooks
+├─ lib                     # Utility functions (validation, DB connection, etc.)
+├─ middleware              # API middleware (authentication, logging, etc.)
+├─ node-api                # Node.js backend (controllers, models, routes)
+├─ public                  # Static assets (images, fonts, icons)
+├─ types                   # TypeScript global types
+└─ next.config.mjs         # Next.js config
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Ensure you have the following installed:
 
-## Learn More
+- **Node.js**: version `>= 14.x`
+- **MySQL**: A running MySQL database instance
+- **npm**: Comes with Node.js
 
-To learn more about Next.js, take a look at the following resources:
+### Steps
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clone the repository:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   git clone https://github.com/AnilShebin/ERP-Jothilingam.git
+   cd ERP-Jothilingam
+   ```
 
-## Deploy on Vercel
+2. **Install dependencies:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   npm install
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. **Run the development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+4. **Open the application in your browser:**
+
+   Navigate to [http://localhost:3000](http://localhost:3000) to view the app.
+
+---
+
+## Database Connection
+
+The MySQL database connection is configured in the `node-api/lib/db.ts` file, **only used in the backend**:
+
+```typescript
+import mysql from 'mysql2/promise';
+
+export const db = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+});
+```
+
+Make sure to update the `.env.local` file with your database credentials to ensure a successful connection.
+
+> **Important**: The frontend should never directly interact with the database. All database interactions should happen in the backend, where API routes can securely handle data fetching or updates.
+
+---
+
+## API Routes
+
+The **Node.js API** is structured under the `thay-backend/` folder:
+
+- **Controllers**: Handle the business logic.
+- **Models**: Represent the database tables.
+- **Routes**: Define the API endpoints.
+
+```typescript
+import { Router } from 'express';
+import { getStaff, addStaff } from '../controllers/staffController';
+
+const router = Router();
+
+router.get('/staff', getStaff);
+router.post('/staff', addStaff);
+
+export default router;
+```
+
+---
+
+## Folder Breakdown
+
+- **`app/`**: Contains all Next.js pages and layouts.
+  - `auth/`: Handles login and sign-up pages.
+  - `admin/`: Admin-specific pages.
+  - `staff/`: Staff-specific pages.
+  - `globals.css`: Global styles.
+  - `layout.tsx`: Root layout used across the app.
+  - `page.tsx`: Home page of the app.
+
+- **`components/`**: Reusable components.
+  - `admin/`: Components specific to the admin interface.
+  - `staff/`: Components specific to the staff interface.
+  - `shared/`: Components shared between admin and staff.
+  - `ui/`: Generic UI components like buttons and inputs.
+  - `charts/`: Components for displaying charts and graphs.
+
+- **`lib/`**: Utility functions and helpers.
+  - `api.ts`: API interaction utilities.
+  - `utils.ts`: Miscellaneous helper functions.
+
+- **`middleware/`**: API middleware.
+  - `authMiddleware.ts`: Handles authentication.
+  - `logger.ts`: Logs incoming requests.
+
+- **`thay-backend/`**: Backend logic.
+  - `controllers/`: Business logic for different entities.
+  - `models/`: Database models.
+  - `routes/`: API routes.
+  - `server.ts`: Entry point for the Node.js server.
+
+---

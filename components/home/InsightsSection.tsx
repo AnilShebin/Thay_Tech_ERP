@@ -2,8 +2,16 @@ import Image from "next/image";
 import { CheckCircle, Star } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 
+// Define types instead of using `any`
+interface InsightCardProps {
+  name: string;
+  role: string;
+  content: string;
+  image: string;
+}
+
 export default function InsightsSection() {
-  const insights = [
+  const insights: InsightCardProps[] = [
     {
       name: "John Doe",
       role: "CFO, Tech Corp",
@@ -49,12 +57,18 @@ export default function InsightsSection() {
 
 function InsightCard({ name, role, content, image }: InsightCardProps) {
   return (
-    <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden group">
-      <CardContent className="p-6 relative">
-        {/* Add the gradient background in the top right corner */}
+    <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden group relative">
+      {/* Set the background image here */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 transition-opacity duration-300"
+        style={{ backgroundImage: "url('/textures/insights-section-texture.webp')" }}
+      ></div>
+      
+      <CardContent className="p-6 relative z-10"> {/* Ensure text is above the background */}
+        {/* Gradient background in the top right corner */}
         <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-blue-400 to-teal-400 transform rotate-45 translate-x-8 -translate-y-8 group-hover:scale-150 transition-transform duration-500"></div>
 
-        {/* CheckCircle icon, positioned in the top right corner */}
+        {/* CheckCircle icon in the top right corner */}
         <CheckCircle className="text-white absolute top-2 right-2 z-10" />
 
         <div className="flex items-center mb-4">

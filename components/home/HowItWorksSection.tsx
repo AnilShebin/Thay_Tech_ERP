@@ -49,7 +49,7 @@ export default function HowItWorksSection() {
               key={index}
               className="relative p-6 bg-white rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl hover:rotate-1"
               style={{
-                backgroundImage: "url(/textures/subtle-texture.jpg)",
+                backgroundImage: "url(/textures/subtle-texture.webp)",
                 backgroundSize: "cover",
                 border: "1px solid transparent",
                 backgroundClip: "padding-box",

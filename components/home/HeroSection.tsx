@@ -6,15 +6,9 @@ export default function HeroSection() {
   return (
     <section className="relative pt-36 pb-36 px-4">
       <div className="max-w-7xl mx-auto text-center relative z-40">
-        <h1
-          className="text-5xl md:text-7xl font-extrabold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 leading-tight"
-          style={{
-            animation: "pulse 2.5s ease-in-out infinite",
-          }}
-        >
+        <h1 className="text-5xl md:text-7xl font-extrabold mb-8 bg-clip-text text-transparent leading-tight animate-slow-color-change">
           Transform Your Audit Experience
         </h1>
-
         <p className="text-xl md:text-2xl max-w-2xl mx-auto mb-12 text-gray-800 leading-relaxed">
           Experience the future with Jothilingam&apos;s cutting-edge auditing
           solution.

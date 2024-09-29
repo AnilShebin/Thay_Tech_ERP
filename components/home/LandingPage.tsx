@@ -26,7 +26,7 @@ export default function LandingPage() {
 function Header() {
   return (
     <header className="sticky top-0 z-50 px-4 lg:px-6 h-20 flex items-center justify-between bg-white/10 backdrop-blur-lg border-b border-white/20">
-      <div className="flex items-center">
+      <Link href="/" className="flex items-center">
         <Image
           src="/icons/logo.svg"
           alt="Jothilingam Logo"
@@ -37,7 +37,7 @@ function Header() {
         <span className="ml-2 text-2xl font-bold text-gray-900">
           Jothilingam
         </span>
-      </div>
+      </Link>
       <nav className="hidden md:flex space-x-6">
         <Link
           href="#features"
@@ -61,12 +61,14 @@ function Header() {
       <div className="flex items-center space-x-4">
         {/* Login Button */}
         <div className="flex items-center space-x-4">
-          <Button
-            variant="outline"
-            className="text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-md hover:shadow-lg text-sm md:text-base py-2 px-4"
-          >
-            Login
-          </Button>
+          <Link href="/sign-in" passHref>
+            <Button
+              variant="outline"
+              className="text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-md hover:shadow-lg text-sm md:text-base py-2 px-4"
+            >
+              Login
+            </Button>
+          </Link>
         </div>
       </div>
     </header>
@@ -78,7 +80,7 @@ function Footer() {
     <footer className="bg-gradient-to-br from-blue-50 to-teal-50 text-gray-600 py-6 px-6">
       <div className="max-w-7xl mx-auto text-center">
         <p className="text-sm">
-          &copy; 2023 Jothilingam CA. All rights reserved.
+          &copy; 2024 Jothilingam CA. All rights reserved.
         </p>
       </div>
     </footer>

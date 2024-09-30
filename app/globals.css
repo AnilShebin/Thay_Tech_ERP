@@ -185,4 +185,29 @@
   .form-link {
     @apply text-14 cursor-pointer font-medium text-bankgradient;
   }
+
+  /* Sidebar */
+  .sidebar-wrapper {
+    @apply sticky left-0 top-0 h-screen;
+  }
+
+  .sidebar {
+    @apply relative flex w-fit flex-col justify-between border-r border-gray-200 bg-white pt-8 text-black-1 max-md:hidden sm:p-4 xl:p-6 2xl:w-[300px] transition-all duration-300 h-full;
+  }
+
+  .sidebar-logo {
+    @apply 2xl:text-26 font-ibm-plex-serif text-[26px] font-bold text-black-1 max-xl:hidden transition-all duration-300;
+  }
+
+  .sidebar-link {
+    @apply flex gap-3 items-center py-1 md:p-3 2xl:p-4 rounded-lg justify-center xl:justify-start transition-all duration-300;
+  }
+
+  .sidebar-label {
+    @apply text-16 font-semibold text-black-2 max-xl:hidden transition-all duration-300;
+  }
+
+  .collapse-btn {
+    @apply hidden xl:flex items-center justify-center w-6 h-12 absolute -right-3 top-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 transition-colors;
+  }
 }

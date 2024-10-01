@@ -17,18 +17,7 @@ import {
   BarChart as RechartsBarChart,
   Bar,
 } from "recharts";
-
-interface ChartData {
-  name: string;
-  value: number;
-}
-
-interface FeatureCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  chart: React.ReactNode;
-}
+import { ChartData, FeatureCardProps } from "@/types";
 
 function LineChart({
   data,

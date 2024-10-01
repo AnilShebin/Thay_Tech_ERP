@@ -8,8 +8,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { HeaderProps } from "@/types";
+import { HeaderProps, NotificationItemProps } from "@/types";
+import { MessageSquare, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
 
 export default function Header({
   type = "title",
@@ -43,18 +46,72 @@ export default function Header({
 
 function NotificationButton() {
   return (
-    <button
-      className="flex items-center justify-center bg-gray-100 rounded-lg p-2 w-10 h-10 sm:w-12 sm:h-12 transition-colors hover:bg-gray-200"
-      aria-label="Notifications"
-    >
-      <Image
-        src={NotificationIcon}
-        alt="Notification Icon"
-        width={20}
-        height={20}
-        className="rounded"
-      />
-    </button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          className="flex items-center justify-center bg-gray-100 rounded-lg p-2 w-10 h-10 sm:w-12 sm:h-12 transition-colors hover:bg-gray-200 relative focus:outline-none focus:ring-0 focus:ring-offset-0"
+          aria-label="Notifications"
+        >
+          <Image
+            src={NotificationIcon}
+            alt="Notification Icon"
+            width={20}
+            height={20}
+            className="rounded"
+          />
+          <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">3</span>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-80 p-4 bg-white rounded-lg shadow-lg border border-gray-200">
+        <DropdownMenuLabel className="text-lg font-semibold text-gray-800 mb-2">Notifications</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <div className="max-h-[300px] overflow-y-auto">
+          <NotificationItem
+            icon={<MessageSquare className="text-blue-500" />}
+            title="New Message"
+            description="You have a new message from John Doe"
+            time="5 minutes ago"
+          />
+          <NotificationItem
+            icon={<AlertTriangle className="text-yellow-500" />}
+            title="System Alert"
+            description="Server load is approaching 90% capacity"
+            time="10 minutes ago"
+          />
+          <NotificationItem
+            icon={<CheckCircle className="text-green-500" />}
+            title="Task Completed"
+            description="Project X has been successfully deployed"
+            time="1 hour ago"
+          />
+          <NotificationItem
+            icon={<Clock className="text-purple-500" />}
+            title="Reminder"
+            description="Team meeting starts in 15 minutes"
+            time="2 hours ago"
+          />
+        </div>
+        <DropdownMenuSeparator className="my-2" />
+        <DropdownMenuItem className="text-center text-sm font-medium text-blue-600 hover:text-blue-800 cursor-pointer">
+          View All Notifications
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+function NotificationItem({ icon, title, description, time }: NotificationItemProps) {
+  return (
+    <div className="flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-md transition-colors">
+      <div className="flex-shrink-0">
+        {icon}
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-medium text-gray-900">{title}</p>
+        <p className="text-sm text-gray-500 truncate">{description}</p>
+        <p className="text-xs text-gray-400 mt-1">{time}</p>
+      </div>
+    </div>
   );
 }
 

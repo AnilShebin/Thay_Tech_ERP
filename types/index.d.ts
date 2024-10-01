@@ -1,5 +1,9 @@
 /* eslint-disable no-unused-vars */
 
+import { Control, FieldPath } from "react-hook-form";
+import { authFormSchema } from "@/lib/utils";
+import { ReactNode } from 'react';
+
 declare type SearchParamProps = {
   params: { [key: string]: string };
   searchParams: { [key: string]: string | string[] | undefined };
@@ -23,9 +27,6 @@ declare interface InsightCardProps {
   image: string;
 }
 
-import { Control, FieldPath } from "react-hook-form";
-import { authFormSchema } from "@/lib/utils";
-
 /* Define types for the CustomInput props */
 declare interface CustomInputProps {
   control: Control<z.infer<ReturnType<typeof authFormSchema>>>;
@@ -43,4 +44,24 @@ declare interface HeaderProps {
   jobTitle?: string
 }
 
+/* Define types for the Header Notification props */
+declare interface NotificationItemProps {
+  icon: ReactNode;
+  title: string;
+  description: string;
+  time: string;
+}
+
+/* Define types for the FeatureCard, Chart props */
+declare interface ChartData {
+  name: string;
+  value: number;
+}
+
+declare interface FeatureCardProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  chart: React.ReactNode;
+}
 

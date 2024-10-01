@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -16,16 +16,8 @@ type SidebarProps = {
 export default function Sidebar({ role }: SidebarProps) {
   const pathname = usePathname();
 
-  // Initialize state with the value from localStorage, if available
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
-    const collapsedState = localStorage.getItem("isSidebarCollapsed");
-    return collapsedState !== null ? JSON.parse(collapsedState) : false;
-  });
-
-  // Use effect to update localStorage when the collapse state changes
-  useEffect(() => {
-    localStorage.setItem("isSidebarCollapsed", JSON.stringify(isCollapsed));
-  }, [isCollapsed]);
+  // Initialize state to false by default (sidebar not collapsed)
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
   // Function to toggle the collapsed state
   const toggleCollapse = () => {
@@ -45,7 +37,8 @@ export default function Sidebar({ role }: SidebarProps) {
                 width={34}
                 height={34}
                 alt="Jothilingam logo"
-                className="size-14"
+                className="size-12"
+                priority
               />
               <h1 className={cn("sidebar-logo", { "xl:hidden": isCollapsed })}>
                 Jothilingam

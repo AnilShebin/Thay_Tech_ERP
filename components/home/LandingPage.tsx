@@ -33,6 +33,7 @@ function Header() {
           width={40}
           height={40}
           className="h-10 w-10 text-blue-600"
+          priority
         />
         <span className="ml-2 text-2xl font-bold text-gray-900">
           Jothilingam

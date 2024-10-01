@@ -4,7 +4,7 @@ import React from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button"; // Import shadcn button
+import { Button } from "@/components/ui/button";
 import TextInput from "@/components/shared/TextInput";
 import { authFormSchema } from "@/lib/utils";
 

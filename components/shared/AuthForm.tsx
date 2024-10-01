@@ -10,9 +10,11 @@ const AuthForm = () => {
         <Link href="/" className="cursor-pointer flex items-center gap-1">
           <Image
             src="/icons/logo.svg"
+            alt="Jothilingam logo"
             width={34}
             height={34}
-            alt="Jothilingam logo"
+            priority
+            className="w-auto h-auto"
           />
           <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">
             Jothilingam

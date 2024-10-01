@@ -15,12 +15,32 @@ declare interface FeatureCardProps {
   chart: JSX.Element;
 }
 
-/* Define types for the props */
+/* Define types for the InsightCard props */
 declare interface InsightCardProps {
   name: string;
   role: string;
   content: string;
   image: string;
+}
+
+import { Control, FieldPath } from "react-hook-form";
+import { authFormSchema } from "@/lib/utils";
+
+/* Define types for the CustomInput props */
+declare interface CustomInputProps {
+  control: Control<z.infer<ReturnType<typeof authFormSchema>>>;
+  name: FieldPath<z.infer<ReturnType<typeof authFormSchema>>>;
+  label: string;
+  placeholder: string;
+}
+
+/* Define types for the Header props */
+declare interface HeaderProps {
+  type?: "title" | "greeting"
+  title: string
+  subtext: string
+  user?: string
+  jobTitle?: string
 }
 
 

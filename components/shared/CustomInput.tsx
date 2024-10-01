@@ -1,18 +1,8 @@
-import { z } from "zod";
 import { FormControl, FormField, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { CustomInputProps } from "@/types"
 
-import { Control, FieldPath } from "react-hook-form";
-import { authFormSchema } from "@/lib/utils";
-
-interface CustomInput {
-  control: Control<z.infer<ReturnType<typeof authFormSchema>>>;
-  name: FieldPath<z.infer<ReturnType<typeof authFormSchema>>>;
-  label: string;
-  placeholder: string;
-}
-
-const CustomInput = ({ control, name, label, placeholder }: CustomInput) => {
+const CustomInput = ({ control, name, label, placeholder }: CustomInputProps) => {
   return (
     <FormField
       control={control}

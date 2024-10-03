@@ -65,3 +65,10 @@ declare interface FeatureCardProps {
   chart: React.ReactNode;
 }
 
+/* Define types for the MobileNav props */
+declare interface MobileNavProps {
+  user: {
+    firstName: string;
+    lastName: string;
+  };
+}

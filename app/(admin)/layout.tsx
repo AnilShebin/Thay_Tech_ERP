@@ -1,3 +1,4 @@
+import MobileNav from "@/components/shared/MobileNav";
 import Sidebar from "@/components/shared/Sidebar";
 
 export default function AdminLayout({
@@ -18,11 +19,17 @@ export default function AdminLayout({
 
   return (
     <main className="flex h-screen w-full font-inter">
-      <Sidebar user={loggedIn} role={loggedIn.role} />
-      <div className="flex-grow flex-col">
-        {/* Render children here */}
+      <Sidebar user={loggedIn} role={"admin"} />
+
+      <div className="flex size-full flex-col">
+        <div className="root-layout">
+          <div>
+            <MobileNav user={loggedIn} role={"admin"} />
+          </div>
+        </div>
         {children}
       </div>
     </main>
   );
 }
+

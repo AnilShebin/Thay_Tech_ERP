@@ -210,4 +210,18 @@
   .collapse-btn {
     @apply hidden xl:flex items-center justify-center w-6 h-12 absolute -right-3 top-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 transition-colors;
   }
+
+  /* Mobile nav */
+  .mobilenav-sheet {
+    @apply flex h-[calc(100vh-72px)] flex-col justify-between overflow-y-auto;
+  }
+
+  .mobilenav-sheet_close {
+    @apply flex gap-3 items-center p-4 rounded-lg w-full max-w-full;
+  }
+
+  /* Root Layout */
+  .root-layout {
+    @apply flex h-16 items-center justify-between p-5 shadow-creditCard sm:p-8 md:hidden;
+  }
 }

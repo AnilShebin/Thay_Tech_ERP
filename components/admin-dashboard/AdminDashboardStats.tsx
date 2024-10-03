@@ -1,12 +1,12 @@
-import DashboardStat from "@/components/shared/DashboardStat"
+import DashboardStat from "@/components/shared/DashboardStat";
 
 interface AdminDashboardStatsProps {
-  totalStaffs: number
-  previousTotalStaffs: number
-  attendanceRate: number
-  previousAttendanceRate: number
-  totalTasks: number
-  previousTotalTasks: number
+  totalStaffs: number;
+  previousTotalStaffs: number;
+  attendanceRate: number;
+  previousAttendanceRate: number;
+  totalTasks: number;
+  previousTotalTasks: number;
 }
 
 export default function AdminDashboardStats({
@@ -15,7 +15,7 @@ export default function AdminDashboardStats({
   attendanceRate,
   previousAttendanceRate,
   totalTasks,
-  previousTotalTasks
+  previousTotalTasks,
 }: AdminDashboardStatsProps) {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -37,9 +37,9 @@ export default function AdminDashboardStats({
         title="Total Tasks"
         value={totalTasks}
         previousValue={previousTotalTasks}
-        icon="/icons/task-outline.svg" 
+        icon="/icons/task-outline.svg"
         type="default"
       />
     </div>
-  )
+  );
 }

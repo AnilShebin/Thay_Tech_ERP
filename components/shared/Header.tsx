@@ -22,7 +22,7 @@ export default function Header({
   jobTitle,
 }: HeaderProps) {
   return (
-    <header className="w-full bg-white px-3 py-2 sm:px-4 sm:py-3 lg:px-6">
+    <header className="w-full bg-white py-2">
       <div className="flex flex-wrap items-center justify-between gap-2 sm:flex-nowrap">
         <div className="flex-1 min-w-0">
           <h1 className="text-xl sm:text-2xl font-semibold text-gray-800 truncate">

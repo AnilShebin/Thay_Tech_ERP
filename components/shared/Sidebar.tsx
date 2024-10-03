@@ -16,8 +16,8 @@ type SidebarProps = {
 export default function Sidebar({ role }: SidebarProps) {
   const pathname = usePathname();
 
-  // Initialize state to false by default (sidebar not collapsed)
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  // Initialize state to true by default (sidebar not collapsed)
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
 
   // Function to toggle the collapsed state
   const toggleCollapse = () => {

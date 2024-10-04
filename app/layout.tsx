@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   title: "ERP-Jothilingam",
   description: "Let's elevate your efficiency and precision together.",
   icons: {
-    icon: "/icons/logo.svg",
+    icon: "/icons/logo.png",
   },
 };
 

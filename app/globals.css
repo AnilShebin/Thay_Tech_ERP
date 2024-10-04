@@ -149,7 +149,7 @@
   }
 
   .home-content {
-    @apply no-scrollbar flex w-full flex-1 flex-col gap-8 px-2 sm:px-8 py-7 lg:py-6 xl:max-h-screen xl:overflow-y-scroll;
+    @apply flex w-full flex-1 flex-col gap-8 px-2 sm:px-8 py-7 lg:py-6 xl:max-h-screen xl:overflow-y-scroll;
   }
 
   .home-header {
@@ -196,7 +196,7 @@
   }
 
   .sidebar-logo {
-    @apply 2xl:text-26 font-ibm-plex-serif text-[26px] font-bold text-black-1 max-xl:hidden transition-all duration-300;
+    @apply 2xl:text-26 font-ibm-plex-serif text-[26px] font-bold text-black-1 max-xl:hidden xl:text-[18px] transition-all duration-300;
   }
 
   .sidebar-link {

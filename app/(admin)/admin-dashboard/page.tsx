@@ -1,13 +1,11 @@
-import { Suspense } from 'react'
-import AdminDashboardStats from "@/components/admin-dashboard/AdminDashboardStats"
-import Header from "@/components/shared/Header"
-import { RecentActivities } from "@/components/admin-dashboard/RecentActivities"
-import { TopPerformingEmployees } from "@/components/admin-dashboard/TopPerformingEmployees"
-import { AuditSchedule } from "@/components/admin-dashboard/AuditSchedule"
-import { Skeleton } from "@/components/ui/skeleton"
+import AdminDashboardStats from "@/components/admin-dashboard/AdminDashboardStats";
+import Header from "@/components/shared/Header";
+import { RecentActivities } from "@/components/admin-dashboard/RecentActivities";
+import { TopPerformingEmployees } from "@/components/admin-dashboard/TopPerformingEmployees";
+import { AuditSchedule } from "@/components/admin-dashboard/AuditSchedule";
 
 export default async function AdminDashboard() {
-  const loggedIn = { firstName: "Jothilingam" }
+  const loggedIn = { firstName: "Jothilingam" };
 
   return (
     <section className="home">
@@ -28,19 +26,13 @@ export default async function AdminDashboard() {
             previousTotalTasks={780}
           />
         </header>
-        
+
         <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
-          <Suspense fallback={<Skeleton className="h-[600px] w-full col-span-1 lg:col-span-6" />}>
-            <RecentActivities />
-          </Suspense>
-          <Suspense fallback={<Skeleton className="h-[600px] w-full col-span-1 lg:col-span-3" />}>
-            <TopPerformingEmployees />
-          </Suspense>
-          <Suspense fallback={<Skeleton className="h-[600px] w-full col-span-1 lg:col-span-3" />}>
-            <AuditSchedule />
-          </Suspense>
+          <RecentActivities />
+          <TopPerformingEmployees />
+          <AuditSchedule />
         </div>
       </div>
     </section>
-  )
+  );
 }

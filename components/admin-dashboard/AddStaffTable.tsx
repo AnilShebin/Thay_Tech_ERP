@@ -12,25 +12,32 @@ import {
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { FileDown, Edit, Trash2, UserPlus } from "lucide-react";
 import { mkConfig, generateCsv, download } from "export-to-csv";
-import { makeData, type Person } from "@/components/shared/makeData";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
-const AddStaffTable = () => {
+// Define the Staff type based on your backend data structure
+type Staff = {
+  staff_id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  gender: string;
+  alternate_number: string | null;
+  roleId: number;
+  designation: string;
+  documents_collected: boolean;
+  isVerified: boolean;
+};
+
+const AddStaffTable = ({ initialData }: { initialData: Staff[] }) => {
   const router = useRouter();
-  const [data, setData] = useState<Person[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState<Staff[]>(initialData);
+  const [isLoading] = useState(false);
   const [sorting, setSorting] = useState<MRT_SortingState>([]);
   
   const rowVirtualizerInstanceRef = useRef<MRT_RowVirtualizer>(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setData(makeData(100)); 
-      setIsLoading(false);
-    }
-  }, []);
 
   useEffect(() => {
     try {
@@ -40,14 +47,14 @@ const AddStaffTable = () => {
     }
   }, [sorting]);
 
-  const handleEditRow = useCallback((row: MRT_Row<Person>) => {
-    router.push(`/edit-staff?id=${row.original.staffId}`);
+  const handleEditRow = useCallback((row: MRT_Row<Staff>) => {
+    router.push(`/edit-staff?id=${row.original.staff_id}`);
   }, [router]);
 
-  const handleDeleteRow = (row: MRT_Row<Person>) => {
-    const confirmed = window.confirm(`Are you sure you want to delete ${row.original.firstName} ${row.original.lastName}?`);
+  const handleDeleteRow = (row: MRT_Row<Staff>) => {
+    const confirmed = window.confirm(`Are you sure you want to delete ${row.original.first_name} ${row.original.last_name}?`);
     if (confirmed) {
-      setData((prevData) => prevData.filter(item => item.staffId !== row.original.staffId));
+      setData((prevData) => prevData.filter(item => item.staff_id !== row.original.staff_id));
     }
   };
 
@@ -57,7 +64,7 @@ const AddStaffTable = () => {
     useKeysAsHeaders: true,
   });
 
-  const handleExportRows = (rows: MRT_Row<Person>[]) => {
+  const handleExportRows = (rows: MRT_Row<Staff>[]) => {
     const rowData = rows.map((row) => row.original);
     const csv = generateCsv(csvConfig)(rowData);
     download(csvConfig)(csv);
@@ -68,7 +75,7 @@ const AddStaffTable = () => {
     download(csvConfig)(csv);
   };
 
-  const columns = useMemo<MRT_ColumnDef<Person>[]>(() => [
+  const columns = useMemo<MRT_ColumnDef<Staff>[]>(() => [
     {
       id: 'actions',
       header: 'Actions',
@@ -95,17 +102,17 @@ const AddStaffTable = () => {
       size: 120,
     },
     {
-      accessorFn: (row) => `${row.firstName} ${row.lastName}`,
+      accessorFn: (row) => `${row.first_name} ${row.last_name}`,
       id: "name",
       header: "Name",
       size: 250,
-      Cell: ({ renderedCellValue, row }) => (
+      Cell: ({ renderedCellValue }) => (
         <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <Image
             alt="avatar"
             height={30}
             width={30}
-            src={row.original.avatar}
+            src={`/placeholder.svg?height=30&width=30`}
             loading="lazy"
             style={{ borderRadius: "50%" }}
           />
@@ -114,7 +121,7 @@ const AddStaffTable = () => {
       ),
     },
     {
-      accessorKey: "staffId",
+      accessorKey: "staff_id",
       header: "Staff ID",
       size: 100,
     },
@@ -134,13 +141,13 @@ const AddStaffTable = () => {
       size: 100,
     },
     {
-      accessorKey: "alternateNumber",
+      accessorKey: "alternate_number",
       header: "Alternate Number",
       size: 120,
     },
     {
-      accessorKey: "role",
-      header: "Role",
+      accessorKey: "roleId",
+      header: "Role ID",
       size: 100,
     },
     {
@@ -205,7 +212,7 @@ const AddStaffTable = () => {
     initialState: {
       columnVisibility: {
         email: false,
-        alternateNumber: false,
+        alternate_number: false,
         gender: false,
       },
     },
@@ -214,7 +221,6 @@ const AddStaffTable = () => {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        {/* <h1 className="text-2xl font-bold">Staff Management</h1> */}
         <Button
           onClick={() => router.push("/add-staffs")}
           className="bg-blue-600 hover:bg-blue-700 text-white"

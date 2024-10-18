@@ -26,6 +26,14 @@ export default function Sidebar({ role }: SidebarProps) {
 
   const sidebarLinks = role === "admin" ? adminSidebarLinks : staffSidebarLinks;
 
+  // Helper function to check if the current route matches
+  const isRouteActive = (route: string) => {
+    // Handle dynamic routes by replacing ":id" with a regex that matches numbers or strings
+    const dynamicRoute = route.replace(":id", "\\d+"); // or "[^/]+" for a more general match
+    const regex = new RegExp(`^${dynamicRoute}`);
+    return regex.test(pathname);
+  };
+
   return (
     <div className="sidebar-wrapper">
       <section className={cn("sidebar", { "xl:w-fit": isCollapsed })}>
@@ -50,9 +58,7 @@ export default function Sidebar({ role }: SidebarProps) {
             const isActive =
               pathname === item.route ||
               (item.subRoutes &&
-                item.subRoutes.some((subRoute) =>
-                  pathname.startsWith(subRoute)
-                ));
+                item.subRoutes.some((subRoute) => isRouteActive(subRoute)));
 
             return (
               <Link

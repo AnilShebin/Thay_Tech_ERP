@@ -1,20 +1,20 @@
-import React from 'react';
+import React from 'react'
 
 interface TextInputProps {
-  label: string;
-  placeholder: string;
-  type?: string;
-  isSelect?: boolean;
-  disabled?: boolean;
-  options?: string[];
-  error?: string;
-  value?: string | number; // Optional prop for controlled inputs
-  defaultValue?: string | number; // Optional prop for uncontrolled inputs
-  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void; // Add onChange prop
-  name?: string; // Add name prop for form handling
+  label: string
+  placeholder: string
+  type?: string
+  isSelect?: boolean
+  disabled?: boolean
+  options?: string[]
+  error?: string
+  value?: string | number
+  defaultValue?: string | number
+  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
+  name?: string
 }
 
-const TextInput: React.FC<TextInputProps> = ({
+export default function TextInput({
   label,
   placeholder,
   type = 'text',
@@ -22,23 +22,23 @@ const TextInput: React.FC<TextInputProps> = ({
   disabled = false,
   options = [],
   error,
-  value, // Destructured here
-  defaultValue, // Destructured here
-  onChange, // Destructured here
-  name, // Destructured here
+  value,
+  defaultValue,
+  onChange,
+  name,
   ...rest
-}) => {
+}: TextInputProps) {
   return (
     <div className="flex flex-col gap-2">
       <label className="text-sm font-medium text-gray-700">{label}</label>
 
       {isSelect ? (
         <select
-          name={name} // Attach name prop
+          name={name}
           className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
           disabled={disabled}
-          value={value} // Use value here
-          onChange={onChange} // Attach onChange handler
+          value={value as string}
+          onChange={onChange}
           {...rest}
         >
           <option value="" disabled>
@@ -53,12 +53,12 @@ const TextInput: React.FC<TextInputProps> = ({
       ) : (
         <input
           type={type}
-          name={name} // Attach name prop
+          name={name}
           placeholder={placeholder}
           disabled={disabled}
-          value={value} // Use value here
-          defaultValue={defaultValue} // Use defaultValue here
-          onChange={onChange} // Attach onChange handler
+          value={value}
+          defaultValue={defaultValue}
+          onChange={onChange}
           className={`w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500 ${
             disabled ? 'bg-gray-100 cursor-not-allowed' : ''
           }`}
@@ -67,7 +67,5 @@ const TextInput: React.FC<TextInputProps> = ({
       )}
       {error && <span className="text-red-500 text-sm">{error}</span>}
     </div>
-  );
-};
-
-export default TextInput;
+  )
+}

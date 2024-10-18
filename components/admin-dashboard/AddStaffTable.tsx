@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from 'react'
 import {
   MaterialReactTable,
   useMaterialReactTable,
@@ -8,154 +8,163 @@ import {
   type MRT_SortingState,
   type MRT_RowVirtualizer,
   MRT_Row,
-} from "material-react-table";
-import { Box, IconButton, Tooltip } from "@mui/material";
-import { FileDown, Edit, Trash2, UserPlus } from "lucide-react";
-import { mkConfig, generateCsv, download } from "export-to-csv";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
+} from 'material-react-table'
+import { Box, IconButton, Tooltip } from '@mui/material'
+import { FileDown, Edit, Trash2, UserPlus } from 'lucide-react'
+import { mkConfig, generateCsv, download } from 'export-to-csv'
+import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import { Button } from '@/components/ui/button'
+import { deleteStaff } from '@/app/actions/staffActions'
 
-// Define the Staff type based on your backend data structure
 type Staff = {
-  staff_id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-  gender: string;
-  alternate_number: string | null;
-  roleId: number;
-  designation: string;
-  documents_collected: boolean;
-  isVerified: boolean;
-};
+  staff_id: string
+  first_name: string
+  last_name: string
+  email: string
+  phone: string
+  gender: string
+  alternate_number: string | null
+  roleId: number
+  designation: string
+  documents_collected: boolean
+  isVerified: boolean
+}
 
-const AddStaffTable = ({ initialData }: { initialData: Staff[] }) => {
-  const router = useRouter();
-  const [data, setData] = useState<Staff[]>(initialData);
-  const [isLoading] = useState(false);
-  const [sorting, setSorting] = useState<MRT_SortingState>([]);
-  
-  const rowVirtualizerInstanceRef = useRef<MRT_RowVirtualizer>(null);
+export default function AddStaffTable({ initialData }: { initialData: Staff[] }) {
+  const router = useRouter()
+  const [data, setData] = useState<Staff[]>(initialData)
+  const [isLoading, setIsLoading] = useState(false)
+  const [sorting, setSorting] = useState<MRT_SortingState>([])
+  const rowVirtualizerInstanceRef = useRef<MRT_RowVirtualizer>(null)
 
   useEffect(() => {
     try {
-      rowVirtualizerInstanceRef.current?.scrollToIndex?.(0);
+      rowVirtualizerInstanceRef.current?.scrollToIndex?.(0)
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  }, [sorting]);
+  }, [sorting])
 
-  const handleEditRow = useCallback((row: MRT_Row<Staff>) => {
-    router.push(`/edit-staff?id=${row.original.staff_id}`);
-  }, [router]);
+  const handleEditRow = useCallback(
+    (row: MRT_Row<Staff>) => {
+      router.push(`/staff/edit/${row.original.staff_id}`)
+    },
+    [router]
+  )
 
-  const handleDeleteRow = (row: MRT_Row<Staff>) => {
-    const confirmed = window.confirm(`Are you sure you want to delete ${row.original.first_name} ${row.original.last_name}?`);
+  const handleDeleteRow = useCallback(async (row: MRT_Row<Staff>) => {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete ${row.original.first_name} ${row.original.last_name}?`
+    )
     if (confirmed) {
-      setData((prevData) => prevData.filter(item => item.staff_id !== row.original.staff_id));
+      setIsLoading(true)
+      try {
+        await deleteStaff(row.original.staff_id)
+        setData((prevData) => prevData.filter((item) => item.staff_id !== row.original.staff_id))
+      } catch (error) {
+        console.error('Failed to delete staff:', error)
+      } finally {
+        setIsLoading(false)
+      }
     }
-  };
+  }, [])
 
   const csvConfig = mkConfig({
-    fieldSeparator: ",",
-    decimalSeparator: ".",
+    fieldSeparator: ',',
+    decimalSeparator: '.',
     useKeysAsHeaders: true,
-  });
+  })
 
   const handleExportRows = (rows: MRT_Row<Staff>[]) => {
-    const rowData = rows.map((row) => row.original);
-    const csv = generateCsv(csvConfig)(rowData);
-    download(csvConfig)(csv);
-  };
+    const rowData = rows.map((row) => row.original)
+    const csv = generateCsv(csvConfig)(rowData)
+    download(csvConfig)(csv)
+  }
 
   const handleExportData = () => {
-    const csv = generateCsv(csvConfig)(data);
-    download(csvConfig)(csv);
-  };
+    const csv = generateCsv(csvConfig)(data)
+    download(csvConfig)(csv)
+  }
 
-  const columns = useMemo<MRT_ColumnDef<Staff>[]>(() => [
-    {
-      id: 'actions',
-      header: 'Actions',
-      Cell: ({ row }) => (
-        <Box sx={{ display: 'flex', gap: '0.5rem' }} >
-          <Tooltip title="Edit">
-            <IconButton
-              color="primary"
-              onClick={() => handleEditRow(row)}
-            >
-              <Edit className="h-4 w-4" />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Delete">
-            <IconButton
-              color="error"
-              onClick={() => handleDeleteRow(row)}
-            >
-              <Trash2 className="h-4 w-4" />
-            </IconButton>
-          </Tooltip>
-        </Box>
-      ),
-      size: 120,
-    },
-    {
-      accessorFn: (row) => `${row.first_name} ${row.last_name}`,
-      id: "name",
-      header: "Name",
-      size: 250,
-      Cell: ({ renderedCellValue }) => (
-        <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <Image
-            alt="avatar"
-            height={30}
-            width={30}
-            src={`/placeholder.svg?height=30&width=30`}
-            loading="lazy"
-            style={{ borderRadius: "50%" }}
-          />
-          <span>{renderedCellValue}</span>
-        </Box>
-      ),
-    },
-    {
-      accessorKey: "staff_id",
-      header: "Staff ID",
-      size: 100,
-    },
-    {
-      accessorKey: "email",
-      header: "Email Address",
-      size: 200,
-    },
-    {
-      accessorKey: "phone",
-      header: "Phone Number",
-      size: 120,
-    },
-    {
-      accessorKey: "gender",
-      header: "Gender",
-      size: 100,
-    },
-    {
-      accessorKey: "alternate_number",
-      header: "Alternate Number",
-      size: 120,
-    },
-    {
-      accessorKey: "roleId",
-      header: "Role ID",
-      size: 100,
-    },
-    {
-      accessorKey: "designation",
-      header: "Designation",
-      size: 150,
-    },
-  ], [handleEditRow]);
+  const columns = useMemo<MRT_ColumnDef<Staff>[]>(
+    () => [
+      {
+        id: 'actions',
+        header: 'Actions',
+        Cell: ({ row }) => (
+          <Box sx={{ display: 'flex', gap: '0.5rem' }}>
+            <Tooltip title="Edit">
+              <IconButton color="primary" onClick={() => handleEditRow(row)}>
+                <Edit className="h-4 w-4" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Delete">
+              <IconButton color="error" onClick={() => handleDeleteRow(row)}>
+                <Trash2 className="h-4 w-4" />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        ),
+        size: 120,
+      },
+      {
+        accessorFn: (row) => `${row.first_name} ${row.last_name}`,
+        id: 'name',
+        header: 'Name',
+        size: 250,
+        Cell: ({ renderedCellValue }) => (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <Image
+              alt="avatar"
+              height={30}
+              width={30}
+              src={`/placeholder.svg?height=30&width=30`}
+              loading="lazy"
+              style={{ borderRadius: '50%' }}
+            />
+            <span>{renderedCellValue}</span>
+          </Box>
+        ),
+      },
+      {
+        accessorKey: 'staff_id',
+        header: 'Staff ID',
+        size: 100,
+      },
+      {
+        accessorKey: 'email',
+        header: 'Email Address',
+        size: 200,
+      },
+      {
+        accessorKey: 'phone',
+        header: 'Phone Number',
+        size: 120,
+      },
+      {
+        accessorKey: 'gender',
+        header: 'Gender',
+        size: 100,
+      },
+      {
+        accessorKey: 'alternate_number',
+        header: 'Alternate Number',
+        size: 120,
+      },
+      {
+        accessorKey: 'roleId',
+        header: 'Role ID',
+        size: 100,
+      },
+      {
+        accessorKey: 'designation',
+        header: 'Designation',
+        size: 150,
+      },
+    ],
+    [handleEditRow, handleDeleteRow]
+  )
 
   const table = useMaterialReactTable({
     columns,
@@ -164,7 +173,7 @@ const AddStaffTable = ({ initialData }: { initialData: Staff[] }) => {
     enableStickyHeader: true,
     enableStickyFooter: true,
     enablePagination: true,
-    muiTableContainerProps: { sx: { maxHeight: "calc(100vh - 200px)" } },
+    muiTableContainerProps: { sx: { maxHeight: 'calc(100vh - 200px)' } },
     onSortingChange: setSorting,
     state: { isLoading, sorting },
     rowVirtualizerInstanceRef,
@@ -172,11 +181,7 @@ const AddStaffTable = ({ initialData }: { initialData: Staff[] }) => {
     columnVirtualizerOptions: { overscan: 2 },
     renderTopToolbarCustomActions: ({ table }) => (
       <div className="flex gap-2 flex-wrap">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleExportData}
-        >
+        <Button variant="outline" size="sm" onClick={handleExportData}>
           <FileDown className="mr-2 h-4 w-4" />
           Export All Data
         </Button>
@@ -216,13 +221,13 @@ const AddStaffTable = ({ initialData }: { initialData: Staff[] }) => {
         gender: false,
       },
     },
-  });
+  })
 
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <Button
-          onClick={() => router.push("/add-staffs")}
+          onClick={() => router.push('/staff/add')}
           className="bg-blue-600 hover:bg-blue-700 text-white"
         >
           <UserPlus className="mr-2 h-4 w-4" />
@@ -234,7 +239,5 @@ const AddStaffTable = ({ initialData }: { initialData: Staff[] }) => {
         <MaterialReactTable table={table} />
       </div>
     </div>
-  );
-};
-
-export default AddStaffTable;
+  )
+}

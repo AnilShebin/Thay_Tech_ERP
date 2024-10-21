@@ -119,7 +119,7 @@ export default function AddStaffTable({ initialData }: { initialData: Staff[] })
               alt="avatar"
               height={30}
               width={30}
-              src={`/placeholder.svg?height=30&width=30`}
+              src={`/icons/placeholder.svg?height=30&width=30`}
               loading="lazy"
               style={{ borderRadius: '50%' }}
             />

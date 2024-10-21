@@ -16,6 +16,12 @@ export const adminSidebarLinks = [
       route: "/attendance",
       label: "Attendance",
     },
+    {
+      imgURL: "/icons/client-companies.svg",
+      route: "/client-companies",
+      label: "Clients",
+      subRoutes: ["/client-companies/add", "/client-companies/edit/:id"],
+    },
   ];
   
   export const staffSidebarLinks = [

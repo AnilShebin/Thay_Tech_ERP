@@ -1,5 +1,5 @@
 import Header from "@/components/shared/Header"
-import AddStaffForm from '@/components/admin-dashboard/AddStaffForm'
+import AddStaffForm from '@/components/admin-dashboard/staff/AddStaffForm'
 
 export default function AddStaff() {
   return (

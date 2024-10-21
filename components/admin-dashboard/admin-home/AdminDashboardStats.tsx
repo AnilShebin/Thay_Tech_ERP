@@ -1,22 +1,23 @@
-import DashboardStat from "@/components/shared/DashboardStat";
+import { use } from 'react'
+import DashboardStat from "@/components/shared/DashboardStat"
+import { getTotalStaffCount, getPreviousTotalStaffCount } from "@/app/actions/staffActions"
 
 interface AdminDashboardStatsProps {
-  totalStaffs: number;
-  previousTotalStaffs: number;
-  attendanceRate: number;
-  previousAttendanceRate: number;
-  totalTasks: number;
-  previousTotalTasks: number;
+  attendanceRate: number
+  previousAttendanceRate: number
+  totalTasks: number
+  previousTotalTasks: number
 }
 
 export default function AdminDashboardStats({
-  totalStaffs,
-  previousTotalStaffs,
   attendanceRate,
   previousAttendanceRate,
   totalTasks,
   previousTotalTasks,
 }: AdminDashboardStatsProps) {
+  const totalStaffs = use(getTotalStaffCount())
+  const previousTotalStaffs = use(getPreviousTotalStaffCount())
+
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       <DashboardStat
@@ -41,5 +42,5 @@ export default function AdminDashboardStats({
         type="default"
       />
     </div>
-  );
+  )
 }

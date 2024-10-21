@@ -1,4 +1,4 @@
-import AddStaffTable from '@/components/admin-dashboard/AddStaffTable'
+import AddStaffTable from '@/components/admin-dashboard/staff/StaffTable'
 import Header from "@/components/shared/Header"
 import { getStaff } from '../../actions/staffActions'
 
@@ -7,7 +7,7 @@ export default async function StaffPage() {
   
   return (
     <section className="home">
-      <div className="home-content">
+      <div className="home-content w-[95vh]">
         <header className="home-header">
           <Header
             type="greeting"
@@ -16,7 +16,7 @@ export default async function StaffPage() {
           />
         </header>
 
-        <div className="mt-6">
+        <div className="">
           <AddStaffTable initialData={staff} />
         </div>
       </div>

@@ -41,7 +41,7 @@ export async function addStaff(staffData: any) {
   return apiResponse
 }
 
-export async function  updateStaff(staffId: string, staffData: any) {
+export async function updateStaff(staffId: string, staffData: any) {
   const apiResponse = await fetchAPI(`/staff/${staffId}`, {
     method: 'PUT',
     body: JSON.stringify(staffData),
@@ -68,4 +68,15 @@ export async function deleteStaff(staffId: string) {
 
   revalidatePath('/staff')
   return apiResponse
+}
+
+export async function getTotalStaffCount() {
+  const staffData = await getStaff()
+  return staffData.length
+}
+
+export async function getPreviousTotalStaffCount() {
+  // This is a placeholder. In a real-world scenario, you'd fetch this from your API
+  // For now, we'll return a mock value
+  return 95
 }

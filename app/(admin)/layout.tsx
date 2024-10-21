@@ -18,18 +18,20 @@ export default function AdminLayout({
   };
 
   return (
-    <main className="flex h-screen w-full font-inter">
-      <Sidebar user={loggedIn} role={"admin"} />
+    <div className="flex h-screen w-full overflow-hidden font-inter">
+      <Sidebar 
+        user={loggedIn} 
+        role="admin" 
+      />
 
-      <div className="flex size-full flex-col">
-        <div className="root-layout">
-          <div>
-            <MobileNav user={loggedIn} role={"admin"} />
-          </div>
+      <div className="flex flex-1 flex-col overflow-hidden">
+        <div className="root-layout md:hidden">
+          <MobileNav user={loggedIn} role="admin" />
         </div>
-        {children}
+        <main className="flex-1 overflow-x-hidden overflow-y-auto">
+          {children}
+        </main>
       </div>
-    </main>
+    </div>
   );
 }
-

@@ -1,8 +1,8 @@
-import AdminDashboardStats from "@/components/admin-dashboard/AdminDashboardStats";
+import AdminDashboardStats from "@/components/admin-dashboard/admin-home/AdminDashboardStats";
 import Header from "@/components/shared/Header";
-import { RecentActivities } from "@/components/admin-dashboard/RecentActivities";
-import { TopPerformingEmployees } from "@/components/admin-dashboard/TopPerformingEmployees";
-import { AuditSchedule } from "@/components/admin-dashboard/AuditSchedule";
+import { RecentActivities } from "@/components/admin-dashboard/admin-home/RecentActivities";
+import { TopPerformingEmployees } from "@/components/admin-dashboard/admin-home/TopPerformingEmployees";
+import { AuditSchedule } from "@/components/admin-dashboard/admin-home/AuditSchedule";
 
 export default async function AdminDashboard() {
   const loggedIn = { firstName: "Jothilingam" };

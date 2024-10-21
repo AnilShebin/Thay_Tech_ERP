@@ -1,20 +1,20 @@
 import Header from "@/components/shared/Header"
-import EditStaffForm from '@/components/admin-dashboard/staff/EditStaffForm'
+import EditClientCompanyForm from "@/components/admin-dashboard/client-companies/EditClientCompanyForm";
 
-export default function EditStaff({ params }: { params: { id: string } }) {
+export default function EditCompany({ params }: { params: { id: string } }) {
   return (
     <section className="home">
       <div className="home-content">
         <header className="home-header">
           <Header
             type="greeting"
-            title="Edit Staff"
-            subtext="Update staff member details"
+            title="Edit Company"
+            subtext="Update client company details"
           />
         </header>
 
         <div className="mt-6">
-          <EditStaffForm staffId={params.id} />
+          <EditClientCompanyForm companyId={params.id} />
         </div>
       </div>
     </section>

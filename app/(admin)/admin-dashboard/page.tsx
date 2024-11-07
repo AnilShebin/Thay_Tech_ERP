@@ -18,8 +18,6 @@ export default async function AdminDashboard() {
             subtext="Let's elevate your efficiency and precision together."
           />
           <AdminDashboardStats
-            totalStaffs={150}
-            previousTotalStaffs={140}
             attendanceRate={92}
             previousAttendanceRate={89}
             totalTasks={500}

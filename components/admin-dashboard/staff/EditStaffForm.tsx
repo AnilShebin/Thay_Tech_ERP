@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Loader2, Upload, X } from "lucide-react"
-import { updateStaff, getStaffById } from "@/app/actions/staffActions"
+import { updateStaff, getStaffById } from "@/components/actions/staffActions"
 
 interface Document {
   documentName: string;

@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Loader2, Upload, Building, Phone, CreditCard, User, FileText } from "lucide-react"
-import { addCompany } from "@/app/actions/companyActions"
+import { addCompany } from "@/components/actions/companyActions"
 
 export default function AddClientCompanyForm() {
   const [isLoading, setIsLoading] = useState(false)

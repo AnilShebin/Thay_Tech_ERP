@@ -15,7 +15,7 @@ import { mkConfig, generateCsv, download } from 'export-to-csv'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import { deleteStaff } from '@/app/actions/staffActions'
+import { deleteStaff } from '@/components/actions/staffActions'
 
 type Staff = {
   staff_id: string

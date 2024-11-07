@@ -1,10 +1,7 @@
-import ClientCompanyTable from '@/components/admin-dashboard/client-companies/ClientCompanyTable'
+import ProfessionalEntityManagementERP from '@/components/admin-dashboard/client-companies/client/ProfessionalEntityManagementERP'
 import Header from "@/components/shared/Header"
-import { getCompanies } from '../../actions/companyActions'
 
-export default async function ClientCompaniesPage() {
-  const companies = await getCompanies()
-  
+export default function ClientCompaniesPage() {
   return (
     <section className="home">
       <div className="home-content">
@@ -15,8 +12,7 @@ export default async function ClientCompaniesPage() {
             subtext="View, search for and add new client companies"
           />
         </header>
-
-          <ClientCompanyTable initialData={companies} />
+        <ProfessionalEntityManagementERP />
       </div>
     </section>
   )

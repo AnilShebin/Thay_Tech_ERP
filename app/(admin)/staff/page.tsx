@@ -1,6 +1,6 @@
 import AddStaffTable from '@/components/admin-dashboard/staff/StaffTable'
 import Header from "@/components/shared/Header"
-import { getStaff } from '../../actions/staffActions'
+import { getStaff } from '../../../components/actions/staffActions'
 
 export default async function StaffPage() {
   const staff = await getStaff()

@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Loader2, Upload, X } from "lucide-react"
-import { addStaff } from "@/app/actions/staffActions"
+import { addStaff } from "@/components/actions/staffActions"
 
 export default function AddStaffForm() {
   const [isLoading, setIsLoading] = useState(false)

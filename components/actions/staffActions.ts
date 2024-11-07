@@ -78,5 +78,5 @@ export async function getTotalStaffCount() {
 export async function getPreviousTotalStaffCount() {
   // This is a placeholder. In a real-world scenario, you'd fetch this from your API
   // For now, we'll return a mock value
-  return 95
+  return 5
 }

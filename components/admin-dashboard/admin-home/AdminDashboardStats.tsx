@@ -1,6 +1,6 @@
 import { use } from 'react'
 import DashboardStat from "@/components/shared/DashboardStat"
-import { getTotalStaffCount, getPreviousTotalStaffCount } from "@/app/actions/staffActions"
+import { getTotalStaffCount, getPreviousTotalStaffCount } from "@/components/actions/staffActions"
 
 interface AdminDashboardStatsProps {
   attendanceRate: number

@@ -2,6 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -18,6 +65,7 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
 .glassmorphism {
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(4px);
@@ -84,7 +132,7 @@
 
 @layer utilities {
   .input-class {
-    @apply text-16 placeholder:text-16 rounded-lg border border-gray-300 text-gray-900 placeholder:text-gray-500;
+    @apply text-16 placeholder:text-16 rounded-lg border border-input text-foreground placeholder:text-muted-foreground;
   }
 
   .sheet-content button {
@@ -100,7 +148,7 @@
   }
 
   .header-2 {
-    @apply text-18 font-semibold text-gray-900;
+    @apply text-18 font-semibold text-foreground;
   }
 
   .text-10 {
@@ -171,19 +219,19 @@
   }
 
   .form-label {
-    @apply text-14 w-full max-w-[280px] font-medium text-gray-700;
+    @apply text-14 w-full max-w-[280px] font-medium text-foreground;
   }
 
   .form-message {
-    @apply text-12 text-red-500;
+    @apply text-12 text-destructive;
   }
 
   .form-btn {
-    @apply text-16 rounded-lg border border-bankgradient bg-bank-gradient font-semibold text-white shadow-form;
+    @apply text-16 rounded-lg border border-primary bg-primary font-semibold text-primary-foreground shadow-form;
   }
 
   .form-link {
-    @apply text-14 cursor-pointer font-medium text-bankgradient;
+    @apply text-14 cursor-pointer font-medium text-primary;
   }
 
   /* Sidebar */
@@ -192,11 +240,11 @@
   }
 
   .sidebar {
-    @apply relative flex w-fit flex-col justify-between border-r border-gray-200 bg-white pt-8 text-black-1 max-md:hidden sm:p-4 xl:p-6 2xl:w-[300px] transition-all duration-300 h-full;
+    @apply relative flex w-fit flex-col justify-between border-r border-border bg-background pt-8 text-foreground max-md:hidden sm:p-4 xl:p-6 2xl:w-[300px] transition-all duration-300 h-full;
   }
 
   .sidebar-logo {
-    @apply 2xl:text-26 font-ibm-plex-serif text-[26px] font-bold text-black-1 max-xl:hidden xl:text-[18px] transition-all duration-300;
+    @apply 2xl:text-26 font-ibm-plex-serif text-[26px] font-bold text-foreground max-xl:hidden xl:text-[18px] transition-all duration-300;
   }
 
   .sidebar-link {
@@ -204,11 +252,11 @@
   }
 
   .sidebar-label {
-    @apply text-16 font-semibold text-black-2 max-xl:hidden transition-all duration-300;
+    @apply text-16 font-semibold text-foreground max-xl:hidden transition-all duration-300;
   }
 
   .collapse-btn {
-    @apply hidden xl:flex items-center justify-center w-6 h-12 absolute -right-3 top-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 transition-colors;
+    @apply hidden xl:flex items-center justify-center w-6 h-12 absolute -right-3 top-1/2 -translate-y-1/2 bg-background border border-border rounded-r-md hover:bg-muted transition-colors;
   }
 
   /* Mobile nav */

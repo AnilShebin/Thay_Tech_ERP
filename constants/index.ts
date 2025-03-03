@@ -11,11 +11,11 @@ export const adminSidebarLinks = [
       label: "Staff",
       subRoutes: ["/staff/add", "/staff/edit/:id"],
     },
-    // {
-    //   imgURL: "/icons/attendence-sidebar.svg",
-    //   route: "/attendance",
-    //   label: "Attendance",
-    // },
+    {
+      imgURL: "/icons/attendence-sidebar.svg",
+      route: "/attendance",
+      label: "Attendance",
+    },
     {
       imgURL: "/icons/client-companies.svg",
       route: "/client-companies",

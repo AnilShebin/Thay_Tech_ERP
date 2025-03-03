@@ -21,18 +21,36 @@ import { Calendar as CalendarIcon, Clock, FileCheck, MessageSquare, Send, Timer,
 
 export default function TaskAssignment() {
   // Task Assignment State
-  const [tasks, setTasks] = useState([])
+  interface Task {
+    id: number;
+    company: string;
+    service: string;
+    task: string;
+    priority: string;
+    dueDate: Date;
+    assignedStaff: string[];
+    assignee: string;
+    approver: string;
+    status: string;
+    approval: string;
+    completionPercentage: number;
+    startTime: Date | null;
+    endTime: Date | null;
+    timeTaken: number;
+  }
+
+  const [tasks, setTasks] = useState<Task[]>([])
   const [selectedCompany, setSelectedCompany] = useState('')
   const [selectedService, setSelectedService] = useState('')
   const [selectedTask, setSelectedTask] = useState('')
   const [priority, setPriority] = useState('medium')
   const [dueDate, setDueDate] = useState(new Date())
-  const [assignedStaff, setAssignedStaff] = useState([])
+  const [assignedStaff, setAssignedStaff] = useState<string[]>([])
   const [assignee, setAssignee] = useState('')
   const [approver, setApprover] = useState('')
 
   // Task Tracking State
-  const [trackingTasks, setTrackingTasks] = useState([])
+  const [trackingTasks, setTrackingTasks] = useState<Task[]>([])
   const [estimatedHours, setEstimatedHours] = useState(0)
   const [status, setStatus] = useState('pending')
   const [approval, setApproval] = useState('pending')
@@ -40,7 +58,13 @@ export default function TaskAssignment() {
   const [notes, setNotes] = useState('')
 
   // Communication State
-  const [messages, setMessages] = useState([])
+  interface Message {
+    text: string;
+    sender: string;
+    timestamp: Date;
+  }
+
+  const [messages, setMessages] = useState<Message[]>([])
   const [newMessage, setNewMessage] = useState('')
 
   // Mock data (replace with actual data from Service Company Management in a real application)
@@ -79,10 +103,16 @@ export default function TaskAssignment() {
     setTrackingTasks([...trackingTasks, newTask])
   }
 
-  const updateTaskStatus = (taskId, newStatus, newCompletionPercentage) => {
+  interface UpdateTaskStatusParams {
+    taskId: number;
+    newStatus: string;
+    newCompletionPercentage: number;
+  }
+
+  const updateTaskStatus = (id: number, p0: string, p1: number, { taskId, newStatus, newCompletionPercentage }: UpdateTaskStatusParams) => {
     setTrackingTasks(trackingTasks.map(task => {
       if (task.id === taskId) {
-        const updatedTask = { 
+        const updatedTask: Task = { 
           ...task, 
           status: newStatus, 
           completionPercentage: newCompletionPercentage 
@@ -91,7 +121,7 @@ export default function TaskAssignment() {
           updatedTask.startTime = new Date()
         } else if (newStatus === 'completed' && !task.endTime) {
           updatedTask.endTime = new Date()
-          updatedTask.timeTaken = differenceInMinutes(updatedTask.endTime, updatedTask.startTime)
+          updatedTask.timeTaken = differenceInMinutes(updatedTask.endTime, updatedTask.startTime!)
         }
         return updatedTask
       }
@@ -99,7 +129,7 @@ export default function TaskAssignment() {
     }))
   }
 
-  const updateTaskApproval = (taskId, newApproval) => {
+  const updateTaskApproval = (taskId: number, newApproval: string) => {
     setTrackingTasks(trackingTasks.map(task => 
       task.id === taskId ? { ...task, approval: newApproval } : task
     ))
@@ -112,7 +142,11 @@ export default function TaskAssignment() {
     }
   }
 
-  const sendReminder = (taskId) => {
+  interface SendReminderParams {
+    taskId: number;
+  }
+
+  const sendReminder = ({ taskId }: SendReminderParams) => {
     // In a real application, this would send a reminder to the assigned staff
     console.log(`Reminder sent for task ${taskId}`)
   }
@@ -157,7 +191,7 @@ export default function TaskAssignment() {
                     {companies.find(c => c.id.toString() === selectedCompany)?.assignedServices.map(serviceId => {
                       const service = serviceTypes.find(s => s.id === serviceId)
                       return (
-                        <SelectItem key={service.id} value={service.id.toString()}>
+                        service && <SelectItem key={service.id} value={service.id.toString()}>
                           {service.name}
                         </SelectItem>
                       )
@@ -217,7 +251,7 @@ export default function TaskAssignment() {
                   <Calendar
                     mode="single"
                     selected={dueDate}
-                    onSelect={setDueDate}
+                    onSelect={(date) => date && setDueDate(date)}
                     initialFocus
                   />
                 </PopoverContent>
@@ -374,21 +408,21 @@ export default function TaskAssignment() {
                       <div className="flex space-x-2">
                         <Button
                           size="sm"
-                          onClick={() => updateTaskStatus(task.id, 'in-progress', 50)}
+                          onClick={() => updateTaskStatus(task.id, 'in-progress', 50, { taskId: task.id, newStatus: 'in-progress', newCompletionPercentage: 50 })}
                           className="bg-blue-500 text-white hover:bg-blue-600"
                         >
                           Start
                         </Button>
                         <Button
                           size="sm"
-                          onClick={() => updateTaskStatus(task.id, 'completed', 100)}
+                          onClick={() => updateTaskStatus(task.id, 'completed', 100, { taskId: task.id, newStatus: 'completed', newCompletionPercentage: 100 })}
                           className="bg-green-500 text-white hover:bg-green-600"
                         >
                           Complete
                         </Button>
                         <Button
                           size="sm"
-                          onClick={() => sendReminder(task.id)}
+                          onClick={() => sendReminder({ taskId: task.id })}
                           className="bg-yellow-500 text-white hover:bg-yellow-600"
                         >
                           <Bell className="h-4 w-4" />

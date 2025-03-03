@@ -1,6 +1,6 @@
 'use server'
 
-const API_BASE_URL = 'http://localhost:3001' // Replace with your actual backend URL
+const API_BASE_URL = 'https://erp-backend-v1.onrender.com' // Replace with your actual backend URL
 
 async function fetchAPI(endpoint: string, options: RequestInit = {}) {
   const url = `${API_BASE_URL}${endpoint}`

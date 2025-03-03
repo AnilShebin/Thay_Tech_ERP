@@ -53,25 +53,50 @@ export function EditEntityForm({ entity, onSubmit }: EditEntityFormProps) {
     setEditedEntity(prev => {
       const updated = { ...prev }
       if (entityFields[prev.clientType].includes(field)) {
-        updated[field] = value
+        (updated as any)[field] = value
       } else {
         switch (prev.clientType) {
           case 'Individual':
-            updated.individual = { ...updated.individual, [field]: value }
+            updated.individual = { 
+              ...updated.individual, 
+              [field]: value || '' 
+            } as typeof updated.individual
             break
           case 'PrivateLimitedCompany':
           case 'LimitedCompany':
-            updated.company = { ...updated.company, [field]: value }
+            updated.company = { 
+              ...updated.company, 
+              companyType: updated.company?.companyType || prev.clientType, 
+              dateOfIncorporation: updated.company?.dateOfIncorporation || '', 
+              cinNumber: updated.company?.cinNumber || '', 
+              [field]: value || '' 
+            }
             break
           case 'Trust':
-            updated.trust = { ...updated.trust, [field]: value }
+            updated.trust = { 
+              ...updated.trust, 
+              dateOfIncorporation: updated.trust?.dateOfIncorporation || '', 
+              trustees: updated.trust?.trustees || '', 
+              [field]: value 
+            }
             break
           case 'LLP':
           case 'PartnershipFirm':
-            updated.partnership = { ...updated.partnership, [field]: value }
+            updated.partnership = { 
+              ...updated.partnership, 
+              partnershipType: updated.partnership?.partnershipType || prev.clientType, 
+              dateOfIncorporation: updated.partnership?.dateOfIncorporation || '', 
+              partners: updated.partnership?.partners || '', 
+              [field]: value 
+            }
             break
           case 'HUF':
-            updated.huf = { ...updated.huf, [field]: value }
+            updated.huf = { 
+              ...updated.huf, 
+              dateOfIncorporation: updated.huf?.dateOfIncorporation || '', 
+              members: updated.huf?.members || '', 
+              [field]: value 
+            }
             break
         }
       }
@@ -107,17 +132,17 @@ export function EditEntityForm({ entity, onSubmit }: EditEntityFormProps) {
   const getSpecificFieldValue = (field: string) => {
     switch (editedEntity.clientType) {
       case 'Individual':
-        return editedEntity.individual[field as keyof typeof editedEntity.individual] || ''
+        return editedEntity.individual?.[field as keyof typeof editedEntity.individual] || ''
       case 'PrivateLimitedCompany':
       case 'LimitedCompany':
-        return editedEntity.company[field as keyof typeof editedEntity.company] || ''
+        return editedEntity.company?.[field as keyof typeof editedEntity.company] || ''
       case 'Trust':
-        return editedEntity.trust[field as keyof typeof editedEntity.trust] || ''
+        return editedEntity.trust?.[field as keyof typeof editedEntity.trust] || ''
       case 'LLP':
       case 'PartnershipFirm':
-        return editedEntity.partnership[field as keyof typeof editedEntity.partnership] || ''
+        return editedEntity.partnership?.[field as keyof typeof editedEntity.partnership] || ''
       case 'HUF':
-        return editedEntity.huf[field as keyof typeof editedEntity.huf] || ''
+        return editedEntity.huf?.[field as keyof typeof editedEntity.huf] || ''
       default:
         return ''
     }
@@ -150,7 +175,7 @@ export function EditEntityForm({ entity, onSubmit }: EditEntityFormProps) {
                       <Label htmlFor={field} className="text-gray-700 dark:text-gray-300">{field.replace(/([A-Z])/g, ' $1').trim()}</Label>
                       <Input
                         id={field}
-                        value={editedEntity[field as keyof typeof editedEntity] || ''}
+                        value={typeof editedEntity[field as keyof typeof editedEntity] === 'object' ? '' : (editedEntity[field as keyof typeof editedEntity] as string | number | undefined) || ''}
                         onChange={(e) => handleInputChange(field, e.target.value)}
                         className="mt-1 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
                       />

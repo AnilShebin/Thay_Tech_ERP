@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 
-const API_BASE_URL = 'http://localhost:3001'
+const API_BASE_URL = 'https://erp-backend-v1.onrender.com'
 
 async function fetchAPI(endpoint: string, options: RequestInit = {}) {
   const url = `${API_BASE_URL}${endpoint}`

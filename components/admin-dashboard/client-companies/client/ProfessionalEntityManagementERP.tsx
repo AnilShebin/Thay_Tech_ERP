@@ -95,7 +95,7 @@ export default function ProfessionalEntityManagementERP() {
               <PlusCircle className="mr-2 h-4 w-4" /> Add New Entity
             </Button>
           </div>
-          <Tabs value={activeTab} onValueChange={(value: EntityType | 'All') => setActiveTab(value)} className="w-full">
+          <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as EntityType | 'All')} className="w-full">
             <TabsList className="flex justify-start overflow-x-auto w-full bg-gray-100 dark:bg-gray-700 p-1 rounded-lg">
               <TabsTrigger value="All" className="flex-1 data-[state=active]:bg-white dark:data-[state=active]:bg-gray-600 data-[state=active]:text-primary">All Clients</TabsTrigger>
               <TabsTrigger value="Individual" className="flex-1 data-[state=active]:bg-white dark:data-[state=active]:bg-gray-600 data-[state=active]:text-primary">Individual</TabsTrigger>
@@ -118,6 +118,10 @@ export default function ProfessionalEntityManagementERP() {
                   setIsEditEntityDialogOpen(true)
                 }}
                 onDelete={handleRemoveEntity}
+                onReload={async () => {
+                  const clients = await getAllClients()
+                  setEntities(clients)
+                }}
               />
             </TabsContent>
           </Tabs>

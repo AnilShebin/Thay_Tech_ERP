@@ -26,14 +26,22 @@ export default function ServiceCompanyManagement() {
   ])
   const [newServiceType, setNewServiceType] = useState('')
   const [newTasks, setNewTasks] = useState([{ name: '', subtasks: [''] }])
-  const [editingItem, setEditingItem] = useState(null)
+  type EditingItem = {
+    type: string,
+    id: number,
+    taskId?: number | null,
+    subtaskIndex?: number | null,
+    name: string
+  } | null
 
-  const [companies, setCompanies] = useState([
-    { id: 1, name: 'Company A', type: 'Private Limited', assignedServices: [] },
-    { id: 2, name: 'Company B', type: 'Limited', assignedServices: [] },
-    { id: 3, name: 'Company C', type: 'Private Limited', assignedServices: [] },
-    { id: 4, name: 'Company D', type: 'LLP', assignedServices: [] }
-  ])
+  const [editingItem, setEditingItem] = useState<EditingItem>(null)
+
+  const [companies, setCompanies] = useState<{ id: number, name: string, type: string, assignedServices: number[] }[]>([
+      { id: 1, name: 'Company A', type: 'Private Limited', assignedServices: [] },
+      { id: 2, name: 'Company B', type: 'Limited', assignedServices: [] },
+      { id: 3, name: 'Company C', type: 'Private Limited', assignedServices: [] },
+      { id: 4, name: 'Company D', type: 'LLP', assignedServices: [] }
+    ])
   const [selectedCompany, setSelectedCompany] = useState('')
   const [selectedService, setSelectedService] = useState('')
   const [jobType, setJobType] = useState('one-time')
@@ -44,7 +52,7 @@ export default function ServiceCompanyManagement() {
 
   const [bulkAssignmentType, setBulkAssignmentType] = useState('byType')
   const [selectedCompanyType, setSelectedCompanyType] = useState('')
-  const [selectedCompanies, setSelectedCompanies] = useState([])
+  const [selectedCompanies, setSelectedCompanies] = useState<string[]>([])
   const [bulkService, setBulkService] = useState('')
 
   const addServiceType = () => {
@@ -68,37 +76,37 @@ export default function ServiceCompanyManagement() {
     setNewTasks([...newTasks, { name: '', subtasks: [''] }])
   }
 
-  const updateTaskName = (index, name) => {
+  const updateTaskName = (index: number, name: string) => {
     const updatedTasks = [...newTasks]
     updatedTasks[index].name = name
     setNewTasks(updatedTasks)
   }
 
-  const addSubtask = (taskIndex) => {
+  const addSubtask = (taskIndex: number) => {
     const updatedTasks = [...newTasks]
     updatedTasks[taskIndex].subtasks.push('')
     setNewTasks(updatedTasks)
   }
 
-  const updateSubtask = (taskIndex, subtaskIndex, value) => {
+  const updateSubtask = (taskIndex: number, subtaskIndex: number, value: string) => {
     const updatedTasks = [...newTasks]
     updatedTasks[taskIndex].subtasks[subtaskIndex] = value
     setNewTasks(updatedTasks)
   }
 
-  const removeSubtask = (taskIndex, subtaskIndex) => {
+  const removeSubtask = (taskIndex: number, subtaskIndex: number) => {
     const updatedTasks = [...newTasks]
     updatedTasks[taskIndex].subtasks.splice(subtaskIndex, 1)
     setNewTasks(updatedTasks)
   }
 
-  const removeTask = (index) => {
+  const removeTask = (index: number) => {
     const updatedTasks = [...newTasks]
     updatedTasks.splice(index, 1)
     setNewTasks(updatedTasks)
   }
 
-  const updateItem = (type, id, taskId = null, subtaskIndex = null, newName) => {
+  const updateItem = (type: string, id: number, taskId: number | null = null, subtaskIndex: number | null = null, newName: any) => {
     setServiceTypes(serviceTypes.map(service => {
       if (type === 'service' && service.id === id) {
         return { ...service, name: newName }
@@ -124,7 +132,7 @@ export default function ServiceCompanyManagement() {
     setEditingItem(null)
   }
 
-  const deleteItem = (type, id, taskId = null, subtaskIndex = null) => {
+  const deleteItem = (type: string, id: number, taskId: number | null = null, subtaskIndex: number | null = null) => {
     if (type === 'service') {
       setServiceTypes(serviceTypes.filter(service => service.id !== id))
     } else if (type === 'task') {
@@ -161,7 +169,7 @@ export default function ServiceCompanyManagement() {
 
   const bulkAssignService = () => {
     if (bulkService) {
-      let companiesToUpdate = []
+      let companiesToUpdate: any[] = []
       if (bulkAssignmentType === 'byType') {
         companiesToUpdate = companies.filter(company => company.type === selectedCompanyType)
       } else if (bulkAssignmentType === 'bySelection') {
@@ -170,7 +178,7 @@ export default function ServiceCompanyManagement() {
 
       setCompanies(companies.map(company => 
         companiesToUpdate.some(c => c.id === company.id)
-          ? { ...company, assignedServices: [...new Set([...company.assignedServices, parseInt(bulkService)])] }
+          ? { ...company, assignedServices: Array.from(new Set([...company.assignedServices, parseInt(bulkService)])) }
           : company
       ))
 
@@ -180,7 +188,7 @@ export default function ServiceCompanyManagement() {
     }
   }
 
-  const ItemActions = ({ type, id, taskId = null, subtaskIndex = null, name }) => (
+  const ItemActions = ({ type, id, taskId = null, subtaskIndex = null, name }: { type: string, id: number, taskId?: number | null, subtaskIndex?: number | null, name: string }) => (
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="ghost" className="h-8 w-8 p-0">
@@ -410,7 +418,7 @@ export default function ServiceCompanyManagement() {
                     <Calendar
                       mode="single"
                       selected={allocatedDate}
-                      onSelect={setAllocatedDate}
+                      onSelect={(day) => day && setAllocatedDate(day)}
                       initialFocus
                     />
                   </PopoverContent>
@@ -436,7 +444,7 @@ export default function ServiceCompanyManagement() {
                     <Calendar
                       mode="single"
                       selected={dueDate}
-                      onSelect={setDueDate}
+                      onSelect={(day) => day && setDueDate(day)}
                       initialFocus
                     />
                   </PopoverContent>
@@ -593,8 +601,8 @@ export default function ServiceCompanyManagement() {
               <Button onClick={() => updateItem(
                 editingItem.type,
                 editingItem.id,
-                editingItem.taskId,
-                editingItem.subtaskIndex,
+                editingItem.taskId ?? null,
+                editingItem.subtaskIndex ?? undefined,
                 editingItem.name
               )}>
                 Update

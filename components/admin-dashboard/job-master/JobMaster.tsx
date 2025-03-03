@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Plus, Upload, Search, Filter, Edit, Trash2, CheckCircle, X, Calendar, Clock, ChevronRight, ChevronDown } from "lucide-react"
+import { Plus, Search ,Edit, Trash2, Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -11,7 +11,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
@@ -135,7 +134,13 @@ export default function AdvancedTaskManagementSystem() {
   const [isAddServiceDialogOpen, setIsAddServiceDialogOpen] = useState(false)
   const [newClientTask, setNewClientTask] = useState<Partial<ClientTask>>({})
   const [newService, setNewService] = useState<Partial<Service>>({
-    tasks: [{ subTasks: [] }]
+    tasks: [{
+      subTasks: [],
+      id: "",
+      name: "",
+      status: "Not Started",
+      priority: "Low"
+    }]
   })
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<TaskStatus | "All">("All")
@@ -172,7 +177,13 @@ export default function AdvancedTaskManagementSystem() {
         }))
       }
       setServices([...services, newServiceWithIds])
-      setNewService({ tasks: [{ subTasks: [] }] })
+      setNewService({ tasks: [{
+        subTasks: [],
+        id: "",
+        name: "",
+        status: "Not Started",
+        priority: "Low"
+      }] })
       setIsAddServiceDialogOpen(false)
     }
   }
@@ -549,13 +560,13 @@ export default function AdvancedTaskManagementSystem() {
             </div>
             <div className="space-y-4">
               <Label>Tasks</Label>
-              {newService.tasks.map((task, taskIndex) => (
+              {newService.tasks?.map((task, taskIndex) => (
                 <div key={taskIndex} className="space-y-2 border p-4 rounded-md">
                   <Input
                     placeholder="Task name"
                     value={task.name || ""}
                     onChange={(e) => {
-                      const updatedTasks = [...newService.tasks]
+                      const updatedTasks = [...(newService.tasks || [])]
                       updatedTasks[taskIndex] = { ...updatedTasks[taskIndex], name: e.target.value }
                       setNewService({ ...newService, tasks: updatedTasks })
                     }}
@@ -563,7 +574,7 @@ export default function AdvancedTaskManagementSystem() {
                   <Select
                     value={task.priority}
                     onValueChange={(value) => {
-                      const updatedTasks = [...newService.tasks]
+                      const updatedTasks = [...(newService.tasks || [])]
                       updatedTasks[taskIndex] = { ...updatedTasks[taskIndex], priority: value as Priority }
                       setNewService({ ...newService, tasks: updatedTasks })
                     }}
@@ -585,7 +596,7 @@ export default function AdvancedTaskManagementSystem() {
                         placeholder="Subtask name"
                         value={subTask.name || ""}
                         onChange={(e) => {
-                          const updatedTasks = [...newService.tasks]
+                          const updatedTasks = [...(newService.tasks || [])]
                           updatedTasks[taskIndex].subTasks[subTaskIndex] = { ...updatedTasks[taskIndex].subTasks[subTaskIndex], name: e.target.value }
                           setNewService({ ...newService, tasks: updatedTasks })
                         }}
@@ -596,7 +607,7 @@ export default function AdvancedTaskManagementSystem() {
                       variant="outline"
                       size="sm"
                       onClick={() => {
-                        const updatedTasks = [...newService.tasks]
+                        const updatedTasks = [...(newService.tasks || [])]
                         updatedTasks[taskIndex].subTasks.push({ id: "", name: "", status: "Not Started" })
                         setNewService({ ...newService, tasks: updatedTasks })
                       }}
@@ -612,7 +623,7 @@ export default function AdvancedTaskManagementSystem() {
                 onClick={() => {
                   setNewService({
                     ...newService,
-                    tasks: [...newService.tasks, { id: "", name: "", status: "Not Started", priority: "Medium", subTasks: [] }]
+                    tasks: [...(newService.tasks || []), { id: "", name: "", status: "Not Started", priority: "Medium", subTasks: [] }]
                   })
                 }}
               >

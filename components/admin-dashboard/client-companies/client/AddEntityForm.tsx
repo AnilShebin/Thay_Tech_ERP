@@ -85,25 +85,25 @@ export default function AddEntityForm({ onSubmit }: { onSubmit: (entity: ClientD
     setNewEntity(prev => {
       const updated = { ...prev }
       if (entityFields[prev.clientType].includes(field)) {
-        updated[field] = value
+        (updated as any)[field] = value
       } else {
         switch (prev.clientType) {
           case 'Individual':
-            updated.individual = { ...updated.individual, [field]: value }
+            updated.individual = { ...updated.individual, [field]: value || '' } as typeof updated.individual
             break
           case 'PrivateLimitedCompany':
           case 'LimitedCompany':
-            updated.company = { ...updated.company, [field]: value }
+            updated.company = { ...updated.company, [field]: value } as typeof updated.company
             break
           case 'Trust':
-            updated.trust = { ...updated.trust, [field]: value }
+            updated.trust = { ...updated.trust, [field]: value || '' } as typeof updated.trust
             break
           case 'LLP':
           case 'PartnershipFirm':
-            updated.partnership = { ...updated.partnership, [field]: value }
+            updated.partnership = { ...updated.partnership ?? {}, [field]: value || updated.partnership?.partnershipType } as typeof updated.partnership
             break
           case 'HUF':
-            updated.huf = { ...updated.huf, [field]: value }
+            updated.huf = { ...updated.huf, [field]: value || '' } as typeof updated.huf
             break
         }
       }
@@ -136,17 +136,17 @@ export default function AddEntityForm({ onSubmit }: { onSubmit: (entity: ClientD
   const getSpecificFieldValue = (field: string) => {
     switch (newEntity.clientType) {
       case 'Individual':
-        return newEntity.individual[field as keyof typeof newEntity.individual] || ''
+        return newEntity.individual?.[field as keyof typeof newEntity.individual] || ''
       case 'PrivateLimitedCompany':
       case 'LimitedCompany':
-        return newEntity.company[field as keyof typeof newEntity.company] || ''
+        return newEntity.company?.[field as keyof typeof newEntity.company] || ''
       case 'Trust':
-        return newEntity.trust[field as keyof typeof newEntity.trust] || ''
+        return newEntity.trust ? newEntity.trust[field as keyof typeof newEntity.trust] || '' : ''
       case 'LLP':
       case 'PartnershipFirm':
-        return newEntity.partnership[field as keyof typeof newEntity.partnership] || ''
+        return newEntity.partnership?.[field as keyof typeof newEntity.partnership] || ''
       case 'HUF':
-        return newEntity.huf[field as keyof typeof newEntity.huf] || ''
+        return newEntity.huf?.[field as keyof typeof newEntity.huf] || ''
       default:
         return ''
     }
@@ -178,7 +178,7 @@ export default function AddEntityForm({ onSubmit }: { onSubmit: (entity: ClientD
                     <Label htmlFor={field} className="text-gray-700 dark:text-gray-300">{field.replace(/([A-Z])/g, ' $1').trim()}</Label>
                     <Input
                       id={field}
-                      value={newEntity[field as keyof typeof newEntity] || ''}
+                      value={typeof newEntity[field as keyof typeof newEntity] === 'string' || typeof newEntity[field as keyof typeof newEntity] === 'number' ? newEntity[field as keyof typeof newEntity]?.toString() : ''}
                       onChange={(e) => handleInputChange(field, e.target.value)}
                       className="mt-1 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
                     />

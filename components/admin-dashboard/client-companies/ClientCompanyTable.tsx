@@ -93,7 +93,7 @@ export default function ClientCompanyTable({ initialData }: { initialData: Compa
     if (confirmed) {
       setIsLoading(true)
       try {
-        await deleteCompany(row.original.id.toString())
+        await deleteCompany(row.original.id)
         setData((prevData) => prevData.filter((item) => item.id !== row.original.id))
       } catch (error) {
         console.error('Failed to delete company:', error)

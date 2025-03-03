@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { ClientData } from './types'
+import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, AwaitedReactNode, Key } from "react"
 
 type EntityDetailsProps = {
   entity: ClientData
@@ -239,7 +240,7 @@ export function EntityDetails({ entity }: EntityDetailsProps) {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {bankDetails.map((bank, index) => (
+                    {bankDetails.map((bank: { bankName: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; accountNumber: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; ifscCode: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined }, index: Key | null | undefined) => (
                       <TableRow key={index} className="hover:bg-gray-100 dark:hover:bg-gray-700">
                         <TableCell className="text-gray-900 dark:text-white">{bank.bankName}</TableCell>
                         <TableCell className="text-gray-900 dark:text-white">{bank.accountNumber}</TableCell>

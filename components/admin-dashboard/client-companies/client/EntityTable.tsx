@@ -5,7 +5,6 @@ import { Badge } from "@/components/ui/badge"
 import { FileText, Edit, Trash2, ChevronLeft, ChevronRight } from 'lucide-react'
 import { ClientData } from './types'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useToast } from "@/hooks/use-toast"
 
 type EntityTableProps = {

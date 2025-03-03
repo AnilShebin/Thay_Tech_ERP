@@ -22,7 +22,7 @@ export default function EditClientCompanyForm({ companyId }: { companyId: string
   useEffect(() => {
     const fetchCompanyData = async () => {
       try {
-        const data = await getCompanyById(companyId)
+        const data = await getCompanyById(Number(companyId))
         console.log('Fetched company data:', data)
         setCompanyData(data)
         setLogoUrl(data.company_logo || '')
@@ -48,7 +48,7 @@ export default function EditClientCompanyForm({ companyId }: { companyId: string
     }
 
     try {
-      const result = await updateCompany(companyId, updatedCompanyData)
+      const result = await updateCompany(Number(companyId), updatedCompanyData)
       if (result.success) {
         router.push('/client-companies')
         router.refresh()
